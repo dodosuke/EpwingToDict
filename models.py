@@ -8,16 +8,16 @@ Base = declarative_base()
 class Entry(Base):
     __tablename__ = 'entry'
     id = Column(Integer, primary_key=True)
-    entryId = Column(String(10), index=True)
-    title = Column(String(128))
+    entryId = Column(String(12), index=True)
+    title = Column(String(128), nullable=False)
+    headword = Column(String(1000))
 
 # Index
-class Index(Base):
-    __tablename__ = 'index'
+class IndexTag(Base):
+    __tablename__ = 'indextag'
     id = Column(Integer, primary_key=True)
-    value = Column(String(128), nullable=False)
-    title = Column(String(128), nullable=False)
-    yomi = Column(String(128), nullable=False)
+    value = Column(String(256), nullable=False)
+    yomi = Column(String(256))
     entryId = Column(Integer, ForeignKey('entry.id'))
     entry = relationship(Entry)
 
