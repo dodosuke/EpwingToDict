@@ -42,12 +42,12 @@ def printProgress(inputId):
 
 def extractEntryAndIndex():
     entryIdForIndex = 0
-    pbar = tqdm(range(15985))
+    pbar = tqdm(range(15958))
 
     for line in f:
         start = line.find("<dt id=")
         # Extract Entry
-        if start >= 0:
+        if start > -1:
             end = line.find("<a")
             entryId = line[start+8:20]
             title = line[22:end-1]
@@ -56,21 +56,21 @@ def extractEntryAndIndex():
             pbar.update(1)
 
         # Extract index
-        elif line.find("<key") >= 0:
+        elif line.find("<key") > -1:
             # Ignore the Kana type and store index into database
             if line.find('type="かな"') < 0:
                 end = line.find("type=")
                 value = line[12:end-2]
                 storeIndexToDB(entryIdForIndex, value)
 
-        elif line.find("&#x01;") >0:
+        elif line.find("&#x01;") > 0:
             break
     f.close()
 
 def extractMeaning():
     entryIdForMeaning = 0
     wcId = 0
-    pbar = tqdm(range(15985))
+    pbar = tqdm(range(15958))
     # Extract meanings
     # Extract headword and store into Entry DB
     for line in f:
@@ -105,9 +105,10 @@ def extractMeaning():
             sentense = line[20:end]
             storeMeaningToDB(sentence, entryIdForMeaning, wcId)
 
+        # 普通の項目、最初の点は除く
         elif line.find("&#x02;") > 0:
             end = line.find("<a")
-            sentence = line[20:end]
+            sentence = line[21:end]
             storeMeaningToDB(sentence, entryIdForMeaning, wcId)
     f.close()
 
@@ -116,9 +117,13 @@ if session.query(WordClass).first() is None:
     storeWCToDB()
 if session.query(Entry).first() is None:
     f = codecs.open(path, 'r', 'utf-8')
-    print("Start extracting entries and indices")
+    print("Start extracting entries and indices.")
     extractEntryAndIndex()
-    print("Finished extracting")
+    print("Finished extracting.")
 if session.query(Meaning).first() is None:
     f = codecs.open(path, 'r', 'utf-8')
+    print("Start extracting items.")
     extractMeaning()
+    print("Finished extracting.")
+else:
+    print("dictionray.db already exists. Delete it if you want to replace.")
