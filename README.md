@@ -13,7 +13,7 @@ LogoVista社の 英和活用大辞典（EPWING） 専用であり、他の辞書
 * extractWordClass.py: 品詞の分類抜き出し用スクリプト（開発用）
 
 ## Demo
-![Demo](https://github.com/dodosuke/EpwingToDict/demo.png)
+![Demo](https://github.com/dodosuke/EpwingToDict/blob/master/demo.png)
 
 ## VS.
 EPWING版 英和活用大辞典 専用のスクリプトです。
