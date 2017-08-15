@@ -1,8 +1,11 @@
 
 test
 test_out
-KENCOLLO.txt
-KENCOLLO2
 epwing_conv.rb
 *.pyc
 *.db
+*.xml
+*.out
+*.html
+*.db
+dictionary.db

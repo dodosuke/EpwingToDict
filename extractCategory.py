@@ -1,6 +1,6 @@
 import codecs
 
-# Extract category type from HTML file
+# Extract wordclass type from HTML file
 f = codecs.open('KENCOLLO2', 'r', 'utf-8')
 categories = []
 for line in f:
