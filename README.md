@@ -1,5 +1,5 @@
 # EpwingToDict
-「研究社 新編 英和活用大辞典（EPWING形式）」を Mac に標準搭載されている辞書アプリで使えるように変換するための python スクリプトです。
+LogoVista社製「研究社 新編 英和活用大辞典（EPWING形式）」を Mac に標準搭載されている辞書アプリで使えるように変換するための python スクリプトです。  
 This is a tool to make a dictionary for Mac from Kenkyusha Eiwa-Katsuyo-Daijiten.
 
 ## Description
@@ -11,13 +11,13 @@ LogoVista社の 英和活用大辞典（EPWING） 専用であり、他の辞書
 * database_setup.py: データベースの設定
 * checkDB.py: データベースの内容確認用スクリプト（開発用）
 * extractWordClass.py: 品詞の分類抜き出し用スクリプト（開発用）
+* KENCOLLO.lst: 外字ファイル（参考資料）
+
+なお、今回のスクリプト作成にあたっては、下記のブログを参考にしています。英辞郎やCoubuildの変換に関しては、こちらをご参照ください。  
+http://www.binword.com/blog/archives/000588.html
 
 ## Demo
 ![Demo](https://github.com/dodosuke/EpwingToDict/blob/master/demo.png)
-
-## VS.
-EPWING版 英和活用大辞典 専用のスクリプトです。
-英辞郎 や Coubuild 用の 変換スクリプトは配布されていますが、英和活用大辞典では使えなかったので、作りました。
 
 ## Requirement
 * 辞書データ：LogoVista 社「徹底英語活用セット」（2002年発売版、EPWING形式）
@@ -25,7 +25,7 @@ EPWING版 英和活用大辞典 専用のスクリプトです。
 * 辞書作成：Mac + Python 3.6.0
 
 ## Usage
-1. まずは、下記サイトを参考に HTML ファイルを作成します。作成したファイルの名前を "KENCOLLO.html" にします。
+1. まずは、下記サイトを参考に HTML ファイルを作成します。作成したファイルの名前を "KENCOLLO.html" にします。（外字を修正したい場合は、このタイミングで HTML ファイルを直接編集してください。）
 http://hp.vector.co.jp/authors/VA000022/ebd2html/ebd2html.html
 
 2. preTreatment.py で 1. で作成したHTMLの前処理をします。"KENCOLLO.out" というファイルが出力されます（所用時間：数十秒）。
@@ -40,7 +40,7 @@ http://hp.vector.co.jp/authors/VA000022/ebd2html/ebd2html.html
 
 ## Memo
 2017.8.16： 初版公開  
-リンクが機能しない、かなで検索できない、などについては、気が向いたら対応予定。
+外字を自動で書き換えない、リンクが機能しない、かなで検索できない、などについては、気が向いたら対応予定。
 
 ## Licence
 [MIT Licence](https://github.com/dodosuke/EpwingToDict/LICENCE)
