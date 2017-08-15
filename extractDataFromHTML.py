@@ -10,7 +10,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-# Store data to DB
+# 品詞の分類をDBへ保存
 def storeWCToDB():
     WCs = ['【動詞＋】', '【＋動詞】', '【形容詞・名詞＋】', '【副詞】', '【副詞１】', \
     '【副詞２】', '【前置詞＋】', '【＋前置詞】', '【雑】', '【＋to do】', '【＋doing】', \
@@ -21,6 +21,7 @@ def storeWCToDB():
         session.add(wordclass)
         session.commit()
 
+# 各アイテムをデータベースへ保存
 def storeEntryToDB(entryId, title, headword=None):
     entry = Entry(entryId=entryId, title=title, headword=headword)
     session.add(entry)
@@ -36,10 +37,7 @@ def storeMeaningToDB(sentence, entryId, wcId):
     session.add(meaning)
     session.commit()
 
-def printProgress(inputId):
-    if inputId % 200 == 0:
-        print(inputId)
-
+# HTML から Entry と Index を抜き出し、データベースへ保存
 def extractEntryAndIndex():
     entryIdForIndex = 0
     pbar = tqdm(range(15958))
@@ -67,6 +65,7 @@ def extractEntryAndIndex():
             break
     f.close()
 
+# HTML から説明文を抜き出し、データベースへ保存
 def extractMeaning():
     entryIdForMeaning = 0
     wcId = 0
@@ -112,6 +111,8 @@ def extractMeaning():
             storeMeaningToDB(sentence, entryIdForMeaning, wcId)
     f.close()
 
+# 前処理した HTML からデータを抜き出す
+# データベースがすでにある場合は、スキップ（上書き防止）
 path = "KENCOLLO.out"
 if session.query(WordClass).first() is None:
     storeWCToDB()
