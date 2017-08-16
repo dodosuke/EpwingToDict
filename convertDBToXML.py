@@ -4,7 +4,7 @@ from tqdm import tqdm
 # データベースを呼び出す
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Entry, WordClass, Meaning, IndexTag
+from DBSetup import Base, Entry, WordClass, Meaning, IndexTag
 engine = create_engine('sqlite:///dictionary.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)

@@ -10,3 +10,4 @@ epwing_conv.rb
 *.db
 dictionary.db
 dictionary.db
+.DS_Store
