@@ -58,6 +58,8 @@ for i in range(numberOfEntries):
         # 説明文の最初　かつ　小分類（１）（２）...がある場合
         if wcId == 0 and i == 0:
             xml_out.write('\t<div>\n\t\t<p>' + sentence + '</p>\n')
+        elif wcId == 0 and i == len(meanings)-1:
+            xml_out.write('\t\t</ul>\n\t</div>\n\t<div>\n\t\t<p>' + sentence + '</p>\n\t\t<ul>\n')
         # 小分類
         elif wcId == 0:
             xml_out.write('\t\t</ul>\n\t</div>\n\t<div>\n\t\t<p>' + sentence + '</p>\n')

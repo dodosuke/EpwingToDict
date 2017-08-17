@@ -11,8 +11,17 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-def pretreat(_file, _file_out):
-    for line in _file:
+# 一時ファイルのパスを指定
+f_temp_path = 'temp.out'
+
+# HTMLファイルの前処理
+def pretreat(f_path):
+
+    # ファイルの読み込み
+    f = codecs.open(f_path, 'r', 'utf-8')
+    f_temp = codecs.open(f_temp_path, 'w', 'utf-8')
+
+    for line in f:
         # <nobr>, <sub>, <sup> タグを全削除する
         line = line.replace("<nobr>", "").replace("</nobr>", "")
         line = line.replace("<sub>", "").replace("</sub>", "")
@@ -27,9 +36,12 @@ def pretreat(_file, _file_out):
         # 不要な改行を削除する
         line = line.replace("\n", "")
         if line.find(" ") == 0 :
-            _file_out.write(line)
+            f_temp.write(line)
         else:
-            _file_out.write("\n" + line)
+            f_temp.write("\n" + line)
+
+    f.close()
+    f_temp.close()
 
 # 品詞の分類をDBへ保存
 def storeWCToDB():
@@ -59,11 +71,16 @@ def storeMeaningToDB(sentence, entryId, wcId):
     session.commit()
 
 # HTML から Entry と Index を抜き出し、データベースへ保存
-def extractEntryAndIndex(_file):
+def extractEntryAndIndex():
+
+    print('Start extracting entry and index')
+
+    # 一時ファイルの読み込み
+    f = codecs.open(f_temp_path, 'r', 'utf-8')
     entryIdForIndex = 0
     pbar = tqdm(range(15958))
 
-    for line in _file:
+    for line in f:
         start = line.find("<dt id=")
         # Extract Entry
         if start > -1:
@@ -85,14 +102,22 @@ def extractEntryAndIndex(_file):
         elif line.find("&#x01;") > 0:
             break
 
+    f.close()
+
 # HTML から説明文を抜き出し、データベースへ保存
-def extractMeaning(_file):
+def extractMeaning():
+
+    print("Start extracting items.")
+    # 一時ファイルの読み込み
+    f = codecs.open(f_temp_path, 'r', 'utf-8')
+
     entryIdForMeaning = 0
     wcId = 0
     pbar = tqdm(range(15958))
+
     # Extract meanings
     # Extract headword and store into Entry DB
-    for line in _file:
+    for line in f:
         if line.find("&#x01;") > 0:
             end = line.find("<br>")
             headword = line[20:end]
@@ -129,3 +154,5 @@ def extractMeaning(_file):
             end = line.find("<a")
             sentence = line[21:end]
             storeMeaningToDB(sentence, entryIdForMeaning, wcId)
+
+    f.close()
