@@ -38,10 +38,11 @@ http://hp.vector.co.jp/authors/VA000022/ebd2html/ebd2html.html
 なお、所要時間は、MacBook Pro (late 2013）で実行時した場合の実測値です。
 
 ## Version
-2017.8.16 (ver. 1.0): 初版公開。
-2017.8.17 (ver. 1.1): Bug Fix 及び コード修正。
+2017/8/16 (ver. 1.0): 初版公開  
+2017/8/17 (ver. 1.1): Bug fix 及び コード修正  
+2017/8/18 (ver. 1.2): Bug fix
 
-外字を自動で書き換えない、リンクが機能しない、かなで検索できない、などについては、気が向いたら対応予定。
+外字を自動で書き換えない、かなで検索できない、などについては、気が向いたら対応予定。
 
 ## Licence
 [MIT Licence](https://github.com/dodosuke/EpwingToDict/LICENCE)

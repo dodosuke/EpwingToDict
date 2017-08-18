@@ -1,5 +1,6 @@
 import codecs
 import re
+import mojimoji
 from tqdm import tqdm
 
 # For Importing dictionary
@@ -16,6 +17,8 @@ f_temp_path = 'temp.out'
 
 # HTMLファイルの前処理
 def pretreat(f_path):
+
+    print('preprocessing HTML file')
 
     # ファイルの読み込み
     f = codecs.open(f_path, 'r', 'utf-8')
@@ -60,8 +63,8 @@ def storeEntryToDB(entryId, title, headword=None):
     session.add(entry)
     session.commit()
 
-def storeIndexToDB(entryId, value):
-    indextag = IndexTag(value=value, entryId=entryId)
+def storeIndexToDB(entryId, value, title):
+    indextag = IndexTag(value=value, title=title, entryId=entryId)
     session.add(indextag)
     session.commit()
 
@@ -95,9 +98,12 @@ def extractEntryAndIndex():
         elif line.find("<key") > -1:
             # Ignore the Kana type and store index into database
             if line.find('type="かな"') < 0:
-                end = line.find("type=")
-                value = line[12:end-2]
-                storeIndexToDB(entryIdForIndex, value)
+                value_end = line.find("</key>")
+                title_end = line.find("type=")
+                value = line[title_end+10:value_end]
+                value = mojimoji.zen_to_han(value, kana=False).lower()
+                title = line[12:title_end-2]
+                storeIndexToDB(entryIdForIndex, value, title)
 
         elif line.find("&#x01;") > 0:
             break
@@ -136,18 +142,12 @@ def extractMeaning():
             sentence = line[20:end]
             storeMeaningToDB(sentence,entryIdForMeaning, 0)
 
-        # Extract Word Class and save wcId for later
+        # Extract word class and save wcId for later
         elif line.find("&#x02;【") > 0:
             end = line.find("<br>")
             wcType = line[20:end]
             wordclass = session.query(WordClass).filter_by(type=wcType).one()
             wcId = wordclass.id
-
-        # Extract the sentense with Link
-        elif line.find("&#x02;") > 0 and line.find("cf. <a") > 0:
-            end = line.find("<br>")
-            sentense = line[20:end]
-            storeMeaningToDB(sentence, entryIdForMeaning, wcId)
 
         # 普通の項目、最初の点は除く
         elif line.find("&#x02;") > 0:
@@ -156,3 +156,11 @@ def extractMeaning():
             storeMeaningToDB(sentence, entryIdForMeaning, wcId)
 
     f.close()
+
+# linkを削除するための関数
+def deleteLink(word):
+    word = word.replace("</a>", "")
+    a1 = word.find('<a')
+    a2 = word.rfind('">')
+    word_out = word[:a1] + word[a2+2:]
+    return word_out

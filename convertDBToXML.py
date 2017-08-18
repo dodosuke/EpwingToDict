@@ -1,5 +1,6 @@
 import codecs, re
 from tqdm import tqdm
+from functions import deleteLink
 
 # データベースを呼び出す
 from sqlalchemy import create_engine
@@ -34,12 +35,12 @@ for i in range(numberOfEntries):
 
     # Indexを書く
     for index in indices:
-        xml_out.write('\t<d:index d:value="' + index.value + '" d:title="' + index.value + '" />\n')
+        xml_out.write('\t<d:index d:value="' + index.value + '" d:title="' + index.title + '" />\n')
 
     # 検索結果の頭の表記を書く
     headword = entry.headword
     if headword.find("<a") > -1:
-        headword = headword.replace('href="#', 'href="x-dictionary:r:')
+        headword = deleteLink(headword)
     xml_out.write('\t<h1><span class="headword">' + headword + '</span></h1>\n')
 
     # データベースから説明文を読み込み
@@ -55,27 +56,38 @@ for i in range(numberOfEntries):
     for i in range(len(meanings)):
         wcId = meanings[i].wcId
         sentence = meanings[i].sentence
-        # 説明文の最初　かつ　小分類（１）（２）...がある場合
+
+        if sentence.find("<a") > -1:
+            sentence = deleteLink(sentence)
+
+        # 最初　かつ　小分類（１）（２）...がある場合
         if wcId == 0 and i == 0:
             xml_out.write('\t<div>\n\t\t<p>' + sentence + '</p>\n')
+
+        # 最後に小分類がある場合
         elif wcId == 0 and i == len(meanings)-1:
             xml_out.write('\t\t</ul>\n\t</div>\n\t<div>\n\t\t<p>' + sentence + '</p>\n\t\t<ul>\n')
+
         # 小分類
         elif wcId == 0:
             xml_out.write('\t\t</ul>\n\t</div>\n\t<div>\n\t\t<p>' + sentence + '</p>\n')
+
         # 説明文の最初、【品詞】＋説明文
         elif i == 0:
             wordclass = session.query(WordClass).filter_by(id = wcId).one()
             xml_out.write('\t<div>\n\t\t<p>' + wordclass.type + '</p>\n\t\t<ul>\n')
             xml_out.write('\t\t\t<li>' + sentence + '</li>\n')
+
         # 説明文のみ記載
         elif wcId == meanings[i-1].wcId:
             xml_out.write('\t\t\t<li>' + sentence + '</li>\n')
-        # 品詞の変わり目　かつ　直前が小分類 の場合
+
+        # 直前が小分類 の場合
         elif meanings[i-1].wcId == 0:
             wordclass = session.query(WordClass).filter_by(id = wcId).one()
             xml_out.write('\t\t<p>' + wordclass.type + '</p>\n\t\t<ul>\n')
             xml_out.write('\t\t\t<li>' + sentence + '</li>\n')
+
         # 品詞が切り替わるタイミング
         else:
             wordclass = session.query(WordClass).filter_by(id = wcId).one()

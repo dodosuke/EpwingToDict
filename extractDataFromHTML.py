@@ -1,5 +1,5 @@
 import codecs
-from ExtractFunctions import pretreat, storeWCToDB, extractEntryAndIndex, extractMeaning
+from functions import pretreat, storeWCToDB, extractEntryAndIndex, extractMeaning
 
 # 入力ファイルのパスを指定
 f_path = 'KENCOLLO.html'

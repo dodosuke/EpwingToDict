@@ -17,6 +17,7 @@ class IndexTag(Base):
     __tablename__ = 'indextag'
     id = Column(Integer, primary_key=True)
     value = Column(String(256), nullable=False)
+    title = Column(String(256), nullable=False)
     yomi = Column(String(256))
     entryId = Column(Integer, ForeignKey('entry.id'))
     entry = relationship(Entry)
@@ -25,13 +26,13 @@ class IndexTag(Base):
 class WordClass(Base):
     __tablename__ = 'wordclass'
     id = Column(Integer, primary_key=True)
-    type = Column(String(1000), nullable=False)
+    type = Column(String(1024), nullable=False)
 
 # Meaning
 class Meaning(Base):
     __tablename__ = 'meaning'
     id = Column(Integer, primary_key=True)
-    sentence = Column(String(1000), nullable=False)
+    sentence = Column(String(1024), nullable=False)
     entryId = Column(Integer, ForeignKey('entry.id'))
     entry = relationship(Entry)
     wcId = Column(Integer, ForeignKey('wordclass.id'))
