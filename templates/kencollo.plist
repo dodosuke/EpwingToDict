@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.apple.dictionary.kencollo</string>
+	<key>CFBundleName</key>
+	<string>$DICT_NAME</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>DCSDictionaryCopyright</key>
+	<string>Copyright © 2007 Apple Inc.</string>
+	<key>DCSDictionaryManufacturerName</key>
+	<string>Kenkyusha CO., Ltd.</string>
+	<key>DCSDictionaryFrontMatterReferenceID</key>
+	<string>front_back_matter</string>
+	<key>DCSDictionaryPrefsHTML</key>
+	<string>MyDictionary_prefs.html</string>
+	<key>DCSDictionaryXSL</key>
+	<string>MyDictionary.xsl</string>
+	<key>DCSDictionaryUseSystemAppearance</key>
+    <true/>
+	<key>DCSDictionaryDefaultPrefs</key>
+	<dict>
+		<key>pronunciation</key>
+		<string>0</string>
+		<key>display-column</key>
+		<string>1</string>
+		<key>display-picture</key>
+		<string>1</string>
+		<key>version</key>
+		<string>1</string>
+	</dict>
+</dict>
+</plist>
