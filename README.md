@@ -39,9 +39,13 @@ http://hp.vector.co.jp/authors/VA000022/ebd2html/ebd2html.html
 なお、所要時間は、MacBook Pro (late 2013）で実行時した場合の実測値です。
 
 ## Version
+
 2018/10/16 (ver. 1.3): Dark Theme 対応
+
 2017/ 8/17 (ver. 1.1): Bug fix 及び コード修正
+
 2017/ 8/18 (ver. 1.2): Bug fix
+
 2017/ 8/16 (ver. 1.0): 初版公開
 
 ## TODO
@@ -52,4 +56,5 @@ http://hp.vector.co.jp/authors/VA000022/ebd2html/ebd2html.html
 
 ## Author
 [dodosuke @ Github](https://github.com/dodosuke)
+
 [dodosuke0920 @ Twitter](https://twitter.com/dodosuke0920)
